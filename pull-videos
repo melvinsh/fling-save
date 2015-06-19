@@ -1,0 +1,18 @@
+DATE=`date "+%d-%m-%Y"`
+TIME=`date "+%H%M"`
+
+mkdir -p cache
+mkdir -p videos/$DATE/$TIME
+
+adb pull /data/data/com.unii.fling/databases/fling.db cache/vids.db
+sqlite3 cache/vids.db 'SELECT `URL` FROM `CHAT_MESSAGE_DB_MODEL`  WHERE `FLING_MEDIA_TYPE` = "Video"' > cache/urls.txt
+
+cd videos/$DATE/$TIME
+
+cat ../../../cache/urls.txt | while read line
+do
+   wget $line
+done
+
+rm ../../../cache/vids.db
+rm ../../../cache/urls.txt

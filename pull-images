@@ -1,0 +1,10 @@
+DATE=`date "+%d-%m-%Y"`
+TIME=`date "+%H%M"`
+
+mkdir -p images/$DATE/$TIME;
+
+adb pull /data/data/com.unii.fling/cache/image_manager_disk_cache images/$DATE/$TIME
+cd images/$DATE/$TIME
+rm journal
+rename -x *.0
+rename -a '.jpg' *
